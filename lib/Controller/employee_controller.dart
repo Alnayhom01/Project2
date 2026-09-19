@@ -23,6 +23,11 @@ class EmployeeController extends GetxController {
 
   final roles = const ['admin', 'employee', 'simpleEmployee'];
 
+  Future<bool> isAdmin() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('employeeRole') == 'admin';
+  }
+
   Future<bool> addEmployee() async {
     final prefs = await SharedPreferences.getInstance();
     final currentRole = prefs.getString('employeeRole');

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_v1/Controller/report_controller.dart';
-import 'package:project_v1/Model/report_model.dart';
+import 'package:project_v1/Controller/archive_controller.dart';
 
-const green = Color(0xff32B94B);
-const lightBlue = Color(0xFFDDF4FC);
-const darkGrey = Color(0xff4A5052);
-const desktopBackground = Color(0xffF4F7F8);
-const borderColor = Color(0xffDCE4E7);
-const textDark = Color(0xff243033);
-const mutedText = Color(0xff667378);
+import 'package:project_v1/Model/report_model.dart';
+import 'package:project_v1/Widgets/app_theme.dart';
+
 
 String formatDate(DateTime? date) {
   if (date == null) return 'غير محدد';
@@ -740,3 +736,23 @@ Widget field({
       ],
     );
   }
+
+
+Widget archivePageHeader(BuildContext context) => desktopPageHeader(context: context, title: 'الأرشيف', subtitle: 'البلاغات المحلولة والمرفوضة فقط');
+
+Widget archivePageContent(BuildContext context, ArchiveController controller) {
+  final reports = controller.reports;
+  return desktopContent(child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+    Container(
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: borderColor)),
+      child: Directionality(textDirection: TextDirection.rtl, child: Row(children: [
+        SizedBox(width: 260, child: DropdownButtonFormField<String>(initialValue: controller.selectedStatus.value, isExpanded: true, alignment: Alignment.centerRight, dropdownColor: Colors.white, icon: const SizedBox.shrink(), decoration: const InputDecoration(labelText: 'حالة الأرشيف', prefixIcon: Icon(Icons.filter_alt_outlined), suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: mutedText)), items: const [DropdownMenuItem(value: 'الكل', alignment: Alignment.centerRight, child: Text('الكل', textAlign: TextAlign.right)), DropdownMenuItem(value: 'تم الحل', alignment: Alignment.centerRight, child: Text('تم الحل', textAlign: TextAlign.right)), DropdownMenuItem(value: 'تم الرفض', alignment: Alignment.centerRight, child: Text('تم الرفض', textAlign: TextAlign.right))], onChanged: (v) { if (v != null) controller.setStatus(v); })),
+        const SizedBox(width: 14),
+        Expanded(child: filterBar(selectedType: controller.selectedType, types: controller.reportTypes, onSearch: controller.setSearch, onTypeChanged: controller.setType)),
+      ])),
+    ),
+    const SizedBox(height: 18),
+    Expanded(child: controller.isLoading ? const Center(child: CircularProgressIndicator(color: green)) : reports.isEmpty ? const Center(child: Text('لا توجد بلاغات مؤرشفة', style: TextStyle(color: mutedText, fontSize: 16, fontWeight: FontWeight.w700))) : ListView.builder(primary: false, itemCount: reports.length, itemBuilder: (_, i) => reportCard(context: context, report: reports[i], showStatus: true, onOpen: () => showReportDetailsDialog(context: context, report: reports[i], controller: controller.dataController, canChangeStatus: false)))),
+  ]));
+}

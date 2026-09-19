@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_v1/Controller/employee_controller.dart';
-import 'package:project_v1/Widgets/View_Widgets/common_widgets.dart';
+import 'package:project_v1/Widgets/View_Widgets/AddEmployeeWidgets.dart';
+import 'package:project_v1/Widgets/app_theme.dart';
 import 'package:project_v1/Widgets/app_drawer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AddEmployee extends StatelessWidget {
   const AddEmployee({super.key});
@@ -13,7 +13,7 @@ class AddEmployee extends StatelessWidget {
     final controller = Get.find<EmployeeController>();
 
     return FutureBuilder<bool>(
-      future: _isAdmin(),
+      future: controller.isAdmin(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -39,11 +39,7 @@ class AddEmployee extends StatelessWidget {
             child: Column(
               children: [
                 Builder(
-                  builder: (context) => desktopPageHeader(
-                    context: context,
-                    title: 'إضافة موظف',
-                    subtitle: 'إنشاء حساب جديد لموظفي البلدية',
-                  ),
+                  builder: (context) => addEmployeePageHeader(context),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -129,7 +125,7 @@ class AddEmployee extends StatelessWidget {
                                       () => Directionality(
                                         textDirection: TextDirection.rtl,
                                         child: DropdownButtonFormField<String>(
-                                          value: controller.selectedRole.value,
+                                          initialValue: controller.selectedRole.value,
                                           isExpanded: true,
                                           alignment: Alignment.centerRight,
                                           menuMaxHeight: 330,
@@ -324,7 +320,7 @@ class AddEmployee extends StatelessWidget {
                                         foregroundColor: Colors.white,
                                         disabledBackgroundColor: const Color(
                                           0xffB63131,
-                                        ).withOpacity(0.55),
+                                        ).withValues(alpha: 0.55),
                                         disabledForegroundColor: Colors.white,
                                         elevation: 0,
                                         shape: RoundedRectangleBorder(
@@ -352,8 +348,4 @@ class AddEmployee extends StatelessWidget {
     );
   }
 
-  Future<bool> _isAdmin() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('employeeRole') == 'admin';
-  }
 }

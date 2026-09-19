@@ -1,7 +1,11 @@
 import 'package:get/get.dart';
 import 'package:project_v1/Bindings/employee_binding.dart';
 import 'package:project_v1/Bindings/login_binding.dart';
-import 'package:project_v1/Bindings/report_binding.dart';
+import 'package:project_v1/Bindings/home_binding.dart';
+import 'package:project_v1/Bindings/in_progress_binding.dart';
+import 'package:project_v1/Bindings/archive_binding.dart';
+import 'package:project_v1/Bindings/reports_binding.dart';
+import 'package:project_v1/Bindings/alerts_binding.dart';
 import 'package:project_v1/Routes/app_routes.dart';
 import 'package:project_v1/View/AddEmployee.dart';
 import 'package:project_v1/View/Alerts.dart';
@@ -21,24 +25,24 @@ class AppPages {
     GetPage(
       name: AppRoutes.home,
       page: () => const Home(),
-      binding: ReportBinding(),
+      binding: HomeBinding(),
     ),
     GetPage(
       name: AppRoutes.inProgress,
       page: () => const InProgress(),
-      binding: ReportBinding(),
+      binding: InProgressBinding(),
     ),
     GetPage(
       name: AppRoutes.reports,
       page: () => const Reports(),
-      binding: ReportBinding(),
+      binding: ReportsBinding(),
     ),
     GetPage(
       name: AppRoutes.archive,
       page: () => const Archive(),
-      binding: ReportBinding(),
+      binding: ArchiveBinding(),
     ),
-    GetPage(name: AppRoutes.alerts, page: () => const Alerts()),
+    GetPage(name: AppRoutes.alerts, page: () => const Alerts(), binding: AlertsBinding()),
     GetPage(
       name: AppRoutes.addEmployee,
       page: () => const AddEmployee(),

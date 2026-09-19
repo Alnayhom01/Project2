@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_v1/Routes/app_routes.dart';
-import 'package:project_v1/Widgets/View_Widgets/common_widgets.dart';
+import 'package:project_v1/Widgets/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppDrawer extends StatelessWidget {

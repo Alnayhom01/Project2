@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_v1/Controller/report_controller.dart';
-import 'package:project_v1/Model/report_model.dart';
+import 'package:project_v1/Controller/home_controller.dart';
 
-const green = Color(0xff32B94B);
-const lightBlue = Color(0xFFDDF4FC);
-const darkGrey = Color(0xff4A5052);
-const desktopBackground = Color(0xffF4F7F8);
-const borderColor = Color(0xffDCE4E7);
-const textDark = Color(0xff243033);
-const mutedText = Color(0xff667378);
+import 'package:project_v1/Model/report_model.dart';
+import 'package:project_v1/Widgets/app_theme.dart';
+
 
 String formatDate(DateTime? date) {
   if (date == null) return 'غير محدد';
@@ -740,3 +736,33 @@ Widget field({
       ],
     );
   }
+
+
+Widget homePageHeader(BuildContext context) => desktopPageHeader(context: context, title: 'الرئيسية', subtitle: 'البلاغات الجديدة الواردة');
+
+Widget homePageContent(BuildContext context, HomeController controller) {
+  final reports = controller.reports;
+  return desktopContent(
+    padding: const EdgeInsets.fromLTRB(28, 22, 28, 28),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        filterBar(selectedType: controller.selectedType, types: controller.reportTypes, onSearch: controller.setSearch, onTypeChanged: controller.setType),
+        const SizedBox(height: 18),
+        Row(textDirection: TextDirection.rtl, children: [
+          const Text('البلاغات الجديدة', style: TextStyle(color: textDark, fontSize: 18, fontWeight: FontWeight.w900)),
+          const SizedBox(width: 10),
+          Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5), decoration: BoxDecoration(color: const Color(0xffE7F7EB), borderRadius: BorderRadius.circular(20)), child: Text('${reports.length}', style: const TextStyle(color: green, fontSize: 12, fontWeight: FontWeight.w900))),
+        ]),
+        const SizedBox(height: 12),
+        Expanded(
+          child: controller.isLoading
+              ? const Center(child: CircularProgressIndicator(color: green))
+              : reports.isEmpty
+                  ? const Center(child: Text('لا توجد بلاغات جديدة', style: TextStyle(color: mutedText, fontSize: 16, fontWeight: FontWeight.w700)))
+                  : ListView.builder(itemCount: reports.length, itemBuilder: (_, i) => reportCard(context: context, report: reports[i], onOpen: () => showReportDetailsDialog(context: context, report: reports[i], controller: controller.dataController, canChangeStatus: controller.canChangeStatus))),
+        ),
+      ],
+    ),
+  );
+}

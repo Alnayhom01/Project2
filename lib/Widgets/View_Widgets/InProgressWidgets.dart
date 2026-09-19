@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_v1/Controller/report_controller.dart';
-import 'package:project_v1/Model/report_model.dart';
+import 'package:project_v1/Controller/in_progress_controller.dart';
 
-const green = Color(0xff32B94B);
-const lightBlue = Color(0xFFDDF4FC);
-const darkGrey = Color(0xff4A5052);
-const desktopBackground = Color(0xffF4F7F8);
-const borderColor = Color(0xffDCE4E7);
-const textDark = Color(0xff243033);
-const mutedText = Color(0xff667378);
+import 'package:project_v1/Model/report_model.dart';
+import 'package:project_v1/Widgets/app_theme.dart';
+
 
 String formatDate(DateTime? date) {
   if (date == null) return 'غير محدد';
@@ -740,3 +736,17 @@ Widget field({
       ],
     );
   }
+
+
+Widget inProgressPageHeader(BuildContext context) => desktopPageHeader(context: context, title: 'قيد المعالجة', subtitle: 'البلاغات التي يجري التعامل معها');
+
+Widget inProgressPageContent(BuildContext context, InProgressController controller) {
+  final reports = controller.reports;
+  return desktopContent(
+    child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      filterBar(selectedType: controller.selectedType, types: controller.reportTypes, onSearch: controller.setSearch, onTypeChanged: controller.setType),
+      const SizedBox(height: 18),
+      Expanded(child: controller.isLoading ? const Center(child: CircularProgressIndicator(color: green)) : reports.isEmpty ? const Center(child: Text('لا توجد بلاغات قيد المعالجة', style: TextStyle(color: mutedText, fontSize: 16, fontWeight: FontWeight.w700))) : ListView.builder(primary: false, itemCount: reports.length, itemBuilder: (_, i) => reportCard(context: context, report: reports[i], onOpen: () => showReportDetailsDialog(context: context, report: reports[i], controller: controller.dataController, canChangeStatus: controller.canChangeStatus)))),
+    ]),
+  );
+}

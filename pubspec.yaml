@@ -1,0 +1,44 @@
+name: project_v1
+description: "Municipal Problem Reporting Desktop Application"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  firebase_core: ^4.13.0
+  cloud_firestore: ^6.8.0
+  get: ^4.7.3
+  crypto: ^3.0.7
+  shared_preferences: ^2.5.5
+  url_launcher: ^6.3.2
+  intl: ^0.20.2
+  pdf: ^3.13.0
+  printing: ^5.15.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+dependency_overrides: {}
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - asset/image/
+
+  fonts:
+    - family: NotoSansArabic
+      fonts:
+        - asset: asset/fonts/NotoSansArabic-Regular.ttf
+          weight: 400
+        - asset: asset/fonts/NotoSansArabic-Bold.ttf
+          weight: 700
+        - asset: asset/fonts/NotoSansArabic-Black.ttf
+          weight: 900

@@ -1,0 +1,8 @@
+{
+  "name": "اسم المدير",
+  "phone": "0912345678",
+  "passwordHash": "ضع هنا ناتج tools/hash_password.dart",
+  "role": "admin",
+  "active": true,
+  "createdAt": "serverTimestamp"
+}

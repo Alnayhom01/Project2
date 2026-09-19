@@ -377,7 +377,7 @@ Future<void> showReportDetailsDialog({
 
   await Get.dialog(
     Directionality(
-      textDirection: TextDirection.rtl,//
+      textDirection: TextDirection.rtl,//comint
       child: Dialog(
         insetPadding: const EdgeInsets.symmetric(horizontal: 48, vertical: 34),
         child: ConstrainedBox(
